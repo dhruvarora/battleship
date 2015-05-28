@@ -1,0 +1,13 @@
+-- need to make 4 grids
+  -- on start make 4 empty 10x10 arrays that represents grids
+    -- shipGrid, and shotGrid 
+    -- shipGrid can just be a number representation -- use 5s for carrier, 4s for battleship, 3s for cruiser, 2s for destroyer, 1 for patrol boat
+  -- 
+
+-- python or web?
+  -- python easy use gaming lib
+    -- no keypress nonsense/listener bs
+
+  -- web
+    -- easy presentation
+    -- easy demo
