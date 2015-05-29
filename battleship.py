@@ -8,15 +8,26 @@ from pygame.locals import *
 # Globals
 BOARDWIDTH = 10
 BOARDHEIGHT = 10
+
 WINDOWWIDTH = 1024
 WINDOWHEIGHT = 768
+
+BOXSIZE = 40
+BOXCOLOR = (255, 255, 255)
+
 FPS = 30
 BLUE = (41, 128, 185)
 SHIPS = ['battleship', 'cruiser', 'destroyer', 'dinghy', 'carrier']
+MARGIN = 20
+
+XMARGIN = int(WINDOWWIDTH - (BOARDWIDTH * BOXSIZE) / 2)
+YMARGIN = int(WINDOWHEIGHT - (BOARDWIDTH * BOXSIZE) / 2)
+
 
 def main():
-    global FPSCLOCK, SCREEN, BOARDWIDTH, BOARDHEIGHT, WINDOWWIDTH, WINDOWHEIGHT, FPS, BLUE, \
-            SHIPS
+    global BOXCOLOR, FPSCLOCK, BOXSIZE, SCREEN, BOARDWIDTH, BOARDHEIGHT, \
+            WINDOWWIDTH, WINDOWHEIGHT, FPS, BLUE, \
+            SHIPS, MARGIN
     
     # --- INIT ----
     pygame.init()
@@ -37,19 +48,19 @@ def run_game():
     mouseX, mouseY = 0,0
     board = generate_board(None, False)
     board = add_ships(board, SHIPS)
-    print board
 
     # ----- MAIN PROGRAM LOOP ------ #
     while True:
         SCREEN.fill(BLUE)
         check_for_quit()
         mouse_clicked_flag = False
+        draw_board()
 
         # --- MAIN EVENT LOOP ----- #
         for event in pygame.event.get():
             if event.type == MOUSEMOTION:
                 mouseX, mouseY = event.pos
-
+        
 
         # --- UPDATE SCREEN ----
         pygame.display.update()
@@ -120,14 +131,28 @@ def draw_board():
     """
     Draws the board
     """
-
-
+    global MARGIN
+    for boxX in range(BOARDWIDTH):
+        for boxY in range(BOARDHEIGHT):
+            pygame.draw.rect(SCREEN, BOXCOLOR, ((MARGIN + BOXSIZE) * boxY + MARGIN,
+                                                (MARGIN + BOXSIZE) * boxX + MARGIN, BOXSIZE, 
+                                                BOXSIZE))
 
 def check_for_quit():
     for event in pygame.event.get(QUIT):
         pygame.quit()
         sys.exit()
 
+
+def corner_coords(tilex, tiley):
+    '''
+    tilex: int
+    tiley: int
+    return: tuple (int, int)
+    '''
+    left = tilex * BOXSIZE + XMARGIN + MARKERSIZE
+    top = tiley * BOXSIZE + YMARGIN + MARKERSIZE
+    return (left, top)
 
 #Start everything off
 if __name__ == '__main__':
